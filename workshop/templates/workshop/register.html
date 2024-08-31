@@ -1,0 +1,16 @@
+{% extends 'workshop/layout.html' %}
+
+{% block title %}
+ثبت نام
+{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-center">
+        <form action="{% url 'workshop:register' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button class="btn btn-outline-primary btn-lg my-3" type="submit" value="submit">ثبت نام</button>
+        </form>
+    </div>
+    <a type="button" name="index" href="{% url 'workshop:login' %}" class="btn btn-primary text-center">ورود</a>
+{% endblock %}

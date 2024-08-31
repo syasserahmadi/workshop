@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link rel=icon href= "{% static 'workshop/Hariwa Favicon.png' %}" sizes=32x32 type=image/png>
+        <link rel="stylesheet" href= "{% static 'workshop/bootstrap/dist/css/bootstrap.rtl.min.css' %}">
+        <script src="{% static 'workshop/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+        <link href="{% static 'workshop/styles.css' %}" rel="stylesheet">
+    </head>
+    <body>
+      <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'workshop:index' %}"><img src="{% static 'workshop/Hariwa Logo.png' %}" width="70px" alt="نشان هریوا"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              {% if request.user.is_authenticated and request.user.is_superuser %}
+                <a type="button" id="index" href="{% url 'workshop:index' %}" class="btn btn-info text-center btn-sm m-2 p-lg-4">وضعیت کارگاه</a>
+                <a type="button" id="newcut" href="{% url 'workshop:newcut' %}" class="btn btn-info text-center btn-sm m-2 p-lg-4">برش جدید</a>
+                <a type="button" id="newjob" href="{% url 'workshop:newjob' %}" class="btn btn-info text-center btn-sm m-2 p-lg-4">کار جدید</a>
+                <a type="button" id="newsheet" href="{% url 'workshop:salary' %}" class="btn btn-info text-center btn-sm m-2 p-lg-4">دستمزدها(Comming soon)</a>
+              {% endif %}
+              {% if request.user.is_authenticated %}
+              <div class="dropdown d-flex justify-content-center">
+                <button class="btn btn-success dropdown-toggle text-center btn-sm m-2 p-lg-4" style="width: 100%;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{ user.get_full_name }}
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{% url 'workshop:logout' %}">خروج</a></li>
+                </ul>
+              </div>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+      
+        {% if messages %}
+          <ul class="alert alert-primary messages" style="width: fit-content; margin: 0 auto;">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+          </ul>
+
+          <script>
+            // Automatically fade out the messages after 3 seconds
+            setTimeout(function() {
+                document.querySelector('.messages').style.opacity = '0';
+                setTimeout(function() {
+                    document.querySelector('.messages').style.display = 'none';
+                }, 500);
+            }, 3000);
+          </script>
+        {% endif %}
+
+        <main class="container-fluid py-5 text-center">
+            {% block body %}
+            {% endblock %}
+        </main>
+    </body>
+</html>

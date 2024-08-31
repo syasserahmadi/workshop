@@ -1,0 +1,75 @@
+{% extends 'workshop/layout.html' %}
+
+{% block title %}
+کاربرگ جدید
+{% endblock %}
+
+{% block body %}
+  <form action="{% url 'workshop:newjob' %}" method="post" id="mainform" class="container needs-validation" novalidate>
+    {% csrf_token %}
+    <h3 class="mb-5" style="color: navy;">کار جدید</h3>
+      <div class="form-group d-flex justify-content-center mt-3">
+        <div class="col-4 col-lg-1">
+            <label for="id_cut" class="form-label mt-3 mx-3">برش:</label>
+        </div>
+        <div class="col-8 col-lg-6">
+          {{ jobs.cut }}
+          <div class="invalid-feedback">لطفاً برش موزد نظر را انتخاب کنید.</div>
+        </div>
+      </div>
+
+
+
+      <div class="form-group d-flex justify-content-center mt-3">
+        <div class="col-4 col-lg-1">
+            <label for="id_size" class="form-label mt-3 mx-3">سایز:</label>
+        </div>
+        <div class="col-8 col-lg-6">
+          {{ jobs.size }}
+          <div class="invalid-feedback">لطفاً سایز را انتخاب کنید.</div>
+        </div>
+      </div>
+
+
+
+      <div class="form-group d-flex justify-content-center mt-3">
+        <div class="col-4 col-lg-1">
+            <label for="id_color" class="form-label mt-3 mx-3">رنگ:</label>
+        </div>
+        <div class="col-8 col-lg-6">
+          {{ jobs.color }}
+          <div class="invalid-feedback">لطفاً رنگ را انتخاب کنید.</div>
+        </div>
+      </div>
+
+
+
+      <div class="form-group d-flex justify-content-center mt-3">
+        <div class="col-4 col-lg-1">
+            <label for="id_line" class="form-label mt-3 mx-3">خط دوخت:</label>
+        </div>
+        <div class="col-8 col-lg-6">
+          {{ jobs.line }}
+          <div class="invalid-feedback">لطفاً خط دوخت را انتخاب کنید.</div>
+        </div>
+      </div>
+
+      
+
+      <div class="form-group d-flex justify-content-center mt-3">
+        <div class="col-4 col-lg-1">
+          <label for="id_user" class="form-label mt-3 mx-3">دوزنده:</label>
+        </div>
+        <div class="col-8 col-lg-6">
+          {{ jobs.user }}
+          <div class="invalid-feedback">لطفاً دوزنده را انتخاب کنید.</div>
+        </div>
+      </div>
+
+
+    <button type="submit" class="btn btn-outline-success mt-4">ثبت</button>
+  </form>
+
+  {% load static %}
+  <script src="{% static 'workshop/newjob.js' %}"></script>
+{% endblock %}

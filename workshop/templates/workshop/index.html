@@ -1,0 +1,103 @@
+{% extends 'workshop/layout.html' %}
+
+{% block title %}
+وضعیت کارگاه
+{% endblock %}
+
+{% block body %}
+
+    <div class="container col-lg-9 col-sm-12">
+      <div class="card mb-4">
+        <h3 class="card-header mb-3">نمای کلی</h3>
+        <div class="card-body">
+          <div class="container">
+            {% for item in cutsPercentage %}
+              {% for cut, percentage in item.items %}
+                {% if percentage < 100 %}
+                  <h5 class="card-title">{{ cut }}</h5>
+                  <div class="progress mb-5">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100" style='width: {{ percentage }}%;'>{{ percentage }}%</div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h4 class="card-header">جزئیات کارها</h4>
+        <div class="card-body">
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  در دست
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <div class="d-flex justify-content-center">
+                    <table class="table table-hover table-striped table-primary">
+                      <thead>
+                        <tr>
+                          <th style="color: rgb(82, 82, 152);"> <p>برش:</p> </th>
+                          <th style="color: rgb(82, 82, 152);"> <p>سایز:</p> </th>
+                          <th style="color: rgb(82, 82, 152);"> <p>رنگ:</p> </th>
+                          <th style="color: rgb(82, 82, 152);"> <p>مشخصات دوخت:</p> </th>
+                          <th style="color: rgb(82, 82, 152);"> <p>دوزنده:</p> </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for job in jobsAtHand %}
+                          <tr>
+                            <td style="color: rgb(82, 82, 152);"> {{ job.cut.cut }} </td>
+                            <td style="color: rgb(82, 82, 152);"> {{ job.size.size }} </td>
+                            <td style="color: rgb(82, 82, 152);"> {{ job.color.color }} </td>
+                            <td style="color: rgb(82, 82, 152);"> {{ job.line.line }} </td>
+                            <td style="color: rgb(82, 82, 152);"> {{ job.user.first_name }} {{ job.user.last_name }} </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  تکمیلی‌های اخیر
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  <div class="d-flex justify-content-center">
+                    <table class="table table-hover table-striped table-primary">
+                      <thead>
+                        <tr>
+                          <th style="color: rgb(82, 82, 152);"> <p>برش:</p> </th>
+                          <th style="color: rgb(82, 82, 152);"> <p>نوع رنگ:</p> </th>
+                          <th style="color: rgb(82, 82, 152);"> <p>نوع سایز:</p> </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for cut in latestFinished %}
+                          <tr>
+                            <td style="color: rgb(82, 82, 152);"> {{ cut.cut }} : {{ cut.id }} </td>
+                            <td style="color: rgb(82, 82, 152);"> {{ cut.colortype}} </td>
+                            <td style="color: rgb(82, 82, 152);"> {{ cut.sizetype }} </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+
+{% endblock %}

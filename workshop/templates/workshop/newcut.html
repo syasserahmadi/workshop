@@ -1,0 +1,240 @@
+{% extends 'workshop/layout.html' %}
+
+{% block title %}
+برش جدید
+{% endblock %}
+
+{% block body %}
+  <form action="{% url 'workshop:newcut' %}" method="post" id="mainform" class="container needs-validation" novalidate>
+    {% csrf_token %}
+    <h3 class="mb-5" style="color: navy;">برش جدید</h3>
+      <div class="form-group d-flex justify-content-center mt-3">
+          <div class="col-4 col-lg-1">
+            <label for="cutname" class="form-label mt-3 mx-3">نام برش:</label>
+          </div>
+          <div class="col-8 col-lg-6">
+            {{ cutsForm.cut }}
+            <div class="invalid-feedback">لطفاً برای برش جدید خود یک نام انتخاب کنید.</div>
+          </div>
+      </div>
+
+      <div class="form-group d-flex justify-content-center mt-3">
+        <div class="col-4 col-lg-1">
+          <label for="customcodeswitch" class="form-label mt-3 mx-3">کد برش:</label>
+        </div>
+        <div class="col-8 col-lg-6">
+          {{ cutsForm.customcode }}
+          <div class="invalid-feedback">در صورتی که گزینه‌ی «کد دلخواه» فعال باشد، پر کردن این فیلد الزامی می‌باشد.</div>
+          <div class="d-flex form-check form-switch mt-2 px-0">
+            <input class="form-check-input ms-1 me-1" type="checkbox" id="customcodeswitch" onchange='toggleAttributef(["customcode"], ["disabled", "required", "placeholder"])'>
+            <label class="form-check-label" for="customcodeswitch">کد دلخواه</label>
+          </div>
+        </div>
+      </div>
+
+
+    <div class="form-group d-flex justify-content-center mt-3">
+      <div class="col-4 col-lg-1">
+          <label for="weight" class="form-label mt-3 mx-3">وزن کل:</label>
+      </div>
+      <div class="col-8 col-lg-6">
+          {{ cutsForm.weight }}
+          <div class="invalid-feedback">ورود وزن کل الزامی می‌باشد.</div>
+      </div>
+    </div>
+
+
+
+    <div class="form-group d-flex justify-content-center mt-3">
+      <div class="col-4 col-lg-1">
+          <label class="form-label mt-3 mx-3">سایز:</label>
+      </div>
+          <div class="col-8 col-lg-6">
+            <div class="card bg-light mb-3" style="max-width: 40rem;">
+              <div class="card-header d-flex justify-content-center flex-wrap">
+                {% for radio in cutsForm.sizetype %}
+                  {{ radio }}
+                {% endfor %}
+              </div>
+
+              <div id="sizecardbody" class="card-body pb-2">
+                {{sizesFormSet.management_form}}
+                <div class="container">
+                  <div class="form-check d-flex flex-wrap justify-content-center">
+                    <div class="d-flex mx-3 my-2 adultparent">
+                      <label class="form-check-label" for="xs">XS</label>
+                      <input class="form-check-input ms-1 me-1 adult" type="checkbox" id="xs" onchange="sizeInputf(this.id)" required>
+                    </div>
+                    
+                    <div class="d-flex mx-2 my-2 adultparent">
+                      <label class="form-check-label" for="s">S</label>
+                      <input class="form-check-input ms-1 me-1 adult" type="checkbox" id="s" onchange="sizeInputf(this.id)" required>
+                    </div>
+
+                    <div class="d-flex mx-2 my-2 adultparent">
+                      <label class="form-check-label" for="m">M</label>
+                      <input class="form-check-input ms-1 me-1 adult" type="checkbox" id="m" onchange="sizeInputf(this.id)" required>
+                    </div>
+
+                    <div class="d-flex mx-2 my-2 adultparent">
+                      <label class="form-check-label" for="l">L</label>
+                      <input class="form-check-input ms-1 me-1 adult" type="checkbox" id="l" onchange="sizeInputf(this.id)" required>
+                    </div>
+
+                    <div class="d-flex mx-2 my-2 adultparent">
+                      <label class="form-check-label" for="xl">XL</label>
+                      <input class="form-check-input ms-1 me-1 adult" type="checkbox" id="xl" onchange="sizeInputf(this.id)" required>
+                    </div>
+
+                    <div class="d-flex mx-2 my-2 adultparent">
+                      <label class="form-check-label" for="2xl">2XL</label>
+                      <input class="form-check-input ms-1 me-1 adult" type="checkbox" id="2xl" onchange="sizeInputf(this.id)" required>
+                    </div>
+
+                    <div class="d-flex mx-2 my-2 adultparent">
+                      <label class="form-check-label" for="3xl">3XL</label>
+                      <input class="form-check-input ms-1 me-1 adult" type="checkbox" id="3xl" onchange="sizeInputf(this.id)" required>
+                    </div>
+                  
+
+                  
+                    <div class="d-flex mx-2 my-2 youngparent" style="display:none !important">
+                      <label class="form-check-label" for="3-4">3-4</label>
+                      <input class="form-check-input ms-1 me-1 young" type="checkbox" id="3-4" onchange="sizeInputf(this.id)" required>
+                    </div>
+                    
+                    <div class="d-flex mx-2 my-2 youngparent" style="display:none !important">
+                      <label class="form-check-label" for="5-6">5-6</label>
+                      <input class="form-check-input ms-1 me-1 young" type="checkbox" id="5-6" onchange="sizeInputf(this.id)" required>
+                    </div>
+
+                    <div class="d-flex mx-2 my-2 youngparent" style="display:none !important">
+                      <label class="form-check-label" for="7-8">7-8</label>
+                      <input class="form-check-input ms-1 me-1 young" type="checkbox" id="7-8" onchange="sizeInputf(this.id)" required>
+                    </div>
+
+                    <div class="d-flex mx-2 my-2 youngparent" style="display:none !important">
+                      <label class="form-check-label" for="9-10">9-10</label>
+                      <input class="form-check-input ms-1 me-1 young" type="checkbox" id="9-10" onchange="sizeInputf(this.id)" required>
+                    </div>
+
+                    <div class="d-flex mx-2 my-2 youngparent" style="display:none !important">
+                      <label class="form-check-label" for="11-12">11-12</label>
+                      <input class="form-check-input ms-1 me-1 young" type="checkbox" id="11-12" onchange="sizeInputf(this.id)" required>
+                    </div>
+
+                    <div class="d-flex mx-2 my-2 youngparent" style="display:none !important">
+                      <label class="form-check-label" for="13-14">13-14</label>
+                      <input class="form-check-input ms-1 me-1 young" type="checkbox" id="13-14" onchange="sizeInputf(this.id)" required>
+                    </div>
+
+                    <div class="d-flex mx-2 my-2 youngparent" style="display:none !important">
+                      <label class="form-check-label" for="15-16">15-16</label>
+                      <input class="form-check-input ms-1 me-1 young" type="checkbox" id="15-16" onchange="sizeInputf(this.id)" required>
+                    </div>
+                  </div>
+                </div>
+
+                <input id="sizecheckboxerror" class="form-control" hidden required>
+                <div class="invalid-feedback mb-2 mt-0">شما هیچ سایزی انتخاب نکرده‌اید!</div>
+
+              </div>
+              <div class="d-flex justify-content-center">
+                <h6 class="m-1 mb-3">تعداد سایز:</h6>
+                <h6 class="m-1 mb-3" id="totalsizes">0</h6>
+              </div>
+            </div>
+          </div>
+    </div>
+
+
+
+    <div class="form-group d-flex justify-content-center mt-3">
+      <div class="col-4 col-lg-1">
+          <label class="form-label mt-3 mx-3">رنگبندی:</label>
+      </div>
+          <div class="col-8 col-lg-6">
+            <div class="card bg-light mb-3" style="max-width: 40rem;">
+              <div class="card-header d-flex justify-content-center flex-wrap">
+                {% for radio in cutsForm.colortype %}
+                  {{ radio }}
+                {% endfor %}
+              </div>
+              {{colorsFormSet.management_form}}
+              <div id="colorcardbody" class="card-body p-0">
+                
+              </div>
+              
+              <div>
+                <button type="button" id="newcolorbtn" class="btn btn-sm btn-primary mb-3 mt-2" onclick="addColor()">
+                  رنگ جدید +
+                </button>
+              </div>
+
+              <input id="colorcheckboxerror" class="form-control" hidden required>
+              <div class="invalid-feedback mb-2 mt-0">شما هیچ رنگی انتخاب نکرده‌اید!</div>
+
+              <div class="d-flex justify-content-center">
+                <h6 class="m-1 mb-3">تعداد رنگ:</h6>
+                <h6 class="m-1 mb-3" id="totalcolors">0</h6>
+              </div>
+            </div>
+          </div>
+    </div>
+
+    
+
+    <div class="form-group d-flex justify-content-center mt-3">
+      <div class="col-4 col-lg-1">
+          <label class="form-label mt-3 mx-3">خط دوخت:</label>
+      </div>
+          <div class="col-8 col-lg-6">
+            <div class="card bg-light mb-3" style="max-width: 40rem;">
+              <div id="linecardbody" class="card-body p-0 mt-4">
+                {{linesFormSet.management_form}}
+
+              </div>
+              
+              <div>
+                <button type="button" id="newlinebtn" class="btn btn-sm btn-primary mb-3 mt-2" onclick="addLine()">
+                  خط جدید +
+                </button>
+              </div>
+
+              <input id="linecheckboxerror" class="form-control" hidden required>
+              <div class="invalid-feedback mb-2 mt-0">شما هیچ خطی انتخاب نکرده‌اید!</div>
+
+              <div class="d-flex justify-content-center">
+                <h6 class="m-1 mb-3">تعداد خط:</h6>
+                <h6 class="m-1 mb-3" id="totallines">0</h6>
+              </div>
+            </div>
+          </div>
+    </div>
+
+    <div class="form-group d-flex justify-content-center mt-3">
+      <div class="col-4 col-lg-1">
+          <label for="id_description" class="form-label mt-3 mx-3">توضیحات:</label>
+      </div>
+      <div class="col-8 col-lg-6">
+          {{ cutsForm.description }}
+      </div>
+    </div>
+    <input id="equalityerror" class="form-control" hidden required>
+    <div class="invalid-feedback mt-4">تعداد زنگ‌ها و سایزها با هم برابر نیست!</div>
+
+    <button type="submit" class="btn btn-outline-success mt-4" onclick="finalvalidationf(event)">ثبت</button>
+  </form>
+
+  {% load static %}
+  <script src="{% static 'workshop/newcut.js' %}"></script>
+
+  <script>
+    radiotogglef()
+  </script>
+
+  <script>
+    loadedPage()
+  </script>
+
+{% endblock %}
